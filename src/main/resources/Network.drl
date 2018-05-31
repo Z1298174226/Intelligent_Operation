@@ -1,0 +1,33 @@
+
+dialect  "mvel"
+
+import com.lex.zhao.textKeyword.StrategyChoice.Latency;
+import com.lex.zhao.textKeyword.StrategyChoice.BandWidth;
+
+rule "low bandwidth"
+    when
+        BandWidth(value < 20)
+    then
+        System.out.println("老大，按你的要求，现在是Low Bandwidth策略");
+end
+
+rule "high bandwidth"
+    when
+        BandWidth(value >= 20)
+    then
+        System.out.println("老大，按你的要求，现在是High Bandwidth策略");
+end
+
+//rule "latency require"
+//    when
+//        Latency(latency < 10)
+//    then
+//        System.out.println("老大，按你的要求，现在是latency require策略");
+//end
+//
+//rule "not latency require"
+//    when
+//        Latency(latency >= 10)
+//    then
+//        System.out.println("老大，按你的要求，现在是not latency require策略");
+//end
