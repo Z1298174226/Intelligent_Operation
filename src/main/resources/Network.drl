@@ -3,6 +3,9 @@ dialect  "mvel"
 
 import com.lex.zhao.textKeyword.StrategyChoice.Latency;
 import com.lex.zhao.textKeyword.StrategyChoice.BandWidth;
+import com.lex.zhao.textKeyword.StrategyChoice.UtilizationRate
+import com.lex.zhao.textKeyword.StrategyChoice
+import com.lex.zhao.textKeyword.Scene;
 
 rule "low bandwidth"
     when
@@ -17,6 +20,16 @@ rule "high bandwidth"
     then
         System.out.println("老大，按你的要求，现在是High Bandwidth策略");
 end
+
+rule "utilizationRate"
+    when
+        $utilization : UtilizationRate()
+    then
+        System.out.println("The utilization rate is no more than "  + $utilization.getRate());
+        Scene scene = new Scene($utilization.getRate());
+        scene.run();
+end
+
 
 //rule "latency require"
 //    when

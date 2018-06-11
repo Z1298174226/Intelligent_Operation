@@ -40,7 +40,7 @@ public class TextKeyWord {
                     wordList.add(t.word);
             }
         }
-//        System.out.println(wordList);
+       // System.out.println(wordList);
         return wordList;
 
         //        Map<String, Set<String>> words = new LinkedHashMap<String, Set<String>>();

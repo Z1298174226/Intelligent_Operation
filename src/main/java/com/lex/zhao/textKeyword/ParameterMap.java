@@ -21,6 +21,13 @@ public class ParameterMap {
                 if(i + 2 < wordList.size() && isInteger(wordList.get(i + 2)))
                     result.put("bandwidth", Integer.valueOf(wordList.get(i + 2)));
             }
+            if(wordList.get(i).equals("利用率")) {
+                if (i + 1 < wordList.size() && (wordList.get(i + 1).equals("不超过") || wordList.get(i + 1).equals("不高于") ||
+                        wordList.get(i + 1).equals("不大于")) ) {
+                    if (i + 2 < wordList.size() && isInteger(wordList.get(i + 2)))
+                        result.put("utilizationRate", Integer.valueOf(wordList.get(i + 2)));
+                }
+            }
         }
         return result;
     }

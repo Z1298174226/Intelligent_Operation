@@ -61,6 +61,11 @@ public class StrategyChoice {
                 latency.setValue(resultMap.get(s));
                 ksession.insert(latency);
             }
+            if(s == "utilizationRate") {
+                final UtilizationRate utiliaztionRate = new UtilizationRate();
+                utiliaztionRate.setRate(resultMap.get(s));
+                ksession.insert(utiliaztionRate);
+            }
         }
 
         ksession.fireAllRules();
@@ -106,6 +111,26 @@ public class StrategyChoice {
 
         public int getValue() {
             return latency;
+        }
+    }
+
+    public static class UtilizationRate {
+        int rate;
+
+        public UtilizationRate() {
+
+        }
+
+        public UtilizationRate(int rate) {
+            this.rate = rate;
+        }
+
+        public int getRate() {
+            return rate;
+        }
+
+        public void setRate(int rate) {
+            this.rate = rate;
         }
     }
 
