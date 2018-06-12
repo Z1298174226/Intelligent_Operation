@@ -45,7 +45,7 @@ public class Business {
 
     @Override
     public String toString() {
-        String s = String.format("id : [%d], src : [%d], dst : [%d], bandwidth : [%2d], holdTime : [%d]" , id, src, dst, bandwidth, getPersistTime());
+        String s = String.format("id : [%d], src : [%d], dst : [%d], bandwidth : [%2dM], holdTime : [%dms]" , id, src, dst, bandwidth, getPersistTime());
         return s;
     }
 }

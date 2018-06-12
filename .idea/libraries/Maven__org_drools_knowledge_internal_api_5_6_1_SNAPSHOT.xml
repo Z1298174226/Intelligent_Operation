@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.drools:knowledge-internal-api:5.6.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/drools/knowledge-internal-api/5.6.1-SNAPSHOT/knowledge-internal-api-5.6.1-20140724.021156-12.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/drools/knowledge-internal-api/5.6.1-SNAPSHOT/knowledge-internal-api-5.6.1-20140724.021156-12-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/drools/knowledge-internal-api/5.6.1-SNAPSHOT/knowledge-internal-api-5.6.1-20140724.021156-12-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

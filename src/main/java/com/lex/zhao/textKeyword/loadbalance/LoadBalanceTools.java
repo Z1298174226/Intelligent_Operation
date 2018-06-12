@@ -5,7 +5,6 @@ import com.lex.zhao.textKeyword.topo.Edge;
 import com.lex.zhao.textKeyword.topo.WeightedGraph;
 
 import java.util.*;
-import java.util.concurrent.locks.Condition;
 
 /**
  * Created by qtfs on 2018/6/10.
@@ -15,7 +14,6 @@ public class LoadBalanceTools {
 
     //算路函数，Random Fit
     public static List<Edge> buildPath(WeightedGraph graph, int src, int dst, int threshold) {
-  //  public static List<Edge> buildPath(WeightedGraph graph, int src, int dst) {
         List<Edge> result = new ArrayList<Edge>();
         Queue<Integer> queue = new LinkedList<Integer>();
         boolean[] marked = new boolean[graph.getVertexs()];

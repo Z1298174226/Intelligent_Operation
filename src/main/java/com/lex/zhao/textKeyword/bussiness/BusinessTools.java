@@ -1,6 +1,8 @@
 package com.lex.zhao.textKeyword.bussiness;
 
 
+import com.lex.zhao.textKeyword.topo.WeightedGraph;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -21,12 +23,12 @@ public class BusinessTools {
     public int count = 0;
 
     //业务生成函数
-    public  Business business_generation() {
+    public  Business business_generation(WeightedGraph graph) {
         while(true) {
-            int src = rand.nextInt(7);
-            int dst = rand.nextInt(7);
+            int src = rand.nextInt(graph.getVertexs());
+            int dst = rand.nextInt(graph.getVertexs());
             while(src == dst) {
-                dst = rand.nextInt(7);
+                dst = rand.nextInt(graph.getVertexs());
             }
             int bandwidth = rand.nextInt(10) + 1;
             long holdTime = rand.nextInt(3000) + 2000;
@@ -38,8 +40,9 @@ public class BusinessTools {
             }finally {
                 lock.unlock();
             }
+            //业务发生间隔
             try{
-                TimeUnit.MILLISECONDS.sleep(getPossionVariable(4) * 100);
+                TimeUnit.MILLISECONDS.sleep(getPossionVariable(4) * 50);
             }catch(InterruptedException ex) {
             }
         }

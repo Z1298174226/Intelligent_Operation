@@ -27,7 +27,7 @@ public class Scene {
     }
     public void run() {
         //拓扑生成
-        final WeightedGraph graph = new WeightedGraph("src\\main\\java\\com\\lex\\zhao\\textKeyword\\topo\\topo.txt");
+        final WeightedGraph graph = new WeightedGraph("src\\main\\java\\com\\lex\\zhao\\textKeyword\\topo\\topo_10.txt");
         //创建线程池
         final ExecutorService executor = Executors.newCachedThreadPool();
         //生成业务的工具类
@@ -39,7 +39,7 @@ public class Scene {
         Runnable gererate_business = new Runnable() {
             @Override
             public void run() {
-                businessTools.business_generation();
+                businessTools.business_generation(graph);
             }
         };
         //带宽计算线程，业务到来时，对应链路带宽减少业务需求量，业务离去时，对应链路带宽恢复
@@ -62,20 +62,19 @@ public class Scene {
                     executor.submit(new Runnable() {
                         @Override
                         public void run() {
-                            System.out.println(business);
+//                            System.out.println(business);
                             List<Edge> path = LoadBalanceTools.buildPath(graph, business.getSrc(), business.getDst(), threshold);
-                            System.out.println(path);
+//                            System.out.println(path);
                             bandwidth_lock.lock();
                             try {
                                 //是否已经没有可以选择的链路，实在没有则业务阻塞
 //                                if(!RoundRobin.roundRobin(graph, threshold))
                                 if(path.size() == 0)
                                     try {
-//                                        System.out.println("The usageRate of network is more than " + threshold + "%, " + " business " + "[" + business.getId() + "]" + " is blocked! Waiting.......");
+                                        System.out.println("The usageRate of network is more than " + threshold + "%, " + " business " + "[" + business.getId() + "]" + " is blocked! Waiting.......");
                                         utilization.await();
-//                                        System.out.println("business" + "[" + business.getId() + "] " + " go on........");
-                                }
-                                    catch(InterruptedException ex){}
+                                        System.out.println("business" + "[" + business.getId() + "] " + " go on........");
+                                } catch(InterruptedException ex){}
                             }finally {
                                 bandwidth_lock.unlock();
                             }
