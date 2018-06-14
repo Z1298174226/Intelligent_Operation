@@ -43,7 +43,7 @@ public class WeightedGraph {
 
     public void addEdge(Edge edge) {
         int node_ip_one = edge.get_one_node();
-        int node_ip_other = edge.get_other_ip();
+        int node_ip_other = edge.get_other_node();
         adj[node_ip_one].add(edge);
         adj[node_ip_other].add(edge);
         edges++;

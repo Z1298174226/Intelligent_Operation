@@ -12,7 +12,7 @@ import java.util.*;
 public class LoadBalanceTools {
     public static  Random rand = new Random();
 
-    //算路函数，Random Fit
+    //算路函数，Random Fit，brandFirstSearch，具有较高的计算性能，速度快
     public static List<Edge> buildPath(WeightedGraph graph, int src, int dst, int threshold) {
         List<Edge> result = new ArrayList<Edge>();
         Queue<Integer> queue = new LinkedList<Integer>();
@@ -25,7 +25,7 @@ public class LoadBalanceTools {
         while(!queue.isEmpty() && !flag) {
             int vertex = queue.poll();
             for(Edge e : graph.adj(vertex)) {
-               int other_node = (e.get_one_node() != vertex) ? e.get_one_node() : e.get_other_ip();
+               int other_node = (e.get_one_node() != vertex) ? e.get_one_node() : e.get_other_node();
                if(marked[other_node]) continue;
                marked[other_node] = true;
                if(e.getBandwidth() < 0 || e.usageRate() * 100 > threshold ) {
@@ -50,7 +50,33 @@ public class LoadBalanceTools {
         return result;
     }
 
+    //算路函数，Random Fit，backingtracking，无目的的回溯导致计算性能大大降低
+    public static List<Edge> buildPath_dfs(WeightedGraph graph, int src, int dst, int threshold) {
+        List<List<Edge>> paths = new ArrayList<List<Edge>>();
+        List<Edge> path = new ArrayList<Edge>();
+        boolean[] marked = new boolean[graph.getVertexs()];
+        dfs(graph, paths, path, src, dst, marked, threshold);
+        return paths.get(0);
+    }
 
-
-
+    private static void dfs(WeightedGraph graph, List<List<Edge>> paths, List<Edge> path, int node, int dst, boolean[] marked, int threshold) {
+        if(paths.size() > 0) return;
+        if(node == dst) {
+            paths.add(new ArrayList(path));
+        }
+        else {
+            for(Edge e : graph.adj(node)) {
+                int other_node = e.get_one_node() != node ? node : e.get_other_node();
+                if(marked[other_node]) continue;
+                marked[other_node] = true;
+                if(e.getBandwidth() < 0 || e.usageRate() * 100 > threshold ) {
+                    marked[other_node] = false;
+                    continue;
+                }
+                path.add(e);
+                dfs(graph, paths, path, other_node, dst, marked, threshold);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
 }

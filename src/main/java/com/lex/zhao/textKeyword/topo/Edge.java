@@ -25,7 +25,7 @@ public class Edge {
         return node_ip_one;
     }
 
-    public int get_other_ip() {
+    public int get_other_node() {
         return node_ip_other;
     }
 
