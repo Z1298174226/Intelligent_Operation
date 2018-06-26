@@ -50,6 +50,52 @@ public class LoadBalanceTools {
         return result;
     }
 
+    //算路函数，带业务优先级，Random Fit，brandFirstSearch，具有较高的计算性能，速度快
+    public static List<Edge> buildPath_priority(WeightedGraph graph, int src, int dst, int threshold, int priority) {
+        List<Edge> result = new ArrayList<Edge>();
+        Queue<Integer> queue = new LinkedList<Integer>();
+        boolean[] marked = new boolean[graph.getVertexs()];
+        boolean flag = false;
+        Edge[] pathTo = new Edge[graph.getVertexs()];
+        int[] nodeFrom = new int[graph.getVertexs()];
+        queue.add(src);
+        marked[src] = true;
+        int num = 0;
+        while(!queue.isEmpty() && !flag) {
+            int vertex = queue.poll();
+            for(Edge e : graph.adj(vertex)) {
+                int other_node = (e.get_one_node() != vertex) ? e.get_one_node() : e.get_other_node();
+                if(marked[other_node]) continue;
+                marked[other_node] = true;
+                if((e.getBandwidth() < 0 || e.usageRate() * 100 > threshold)) {
+                    if(priority > 1 || num < 3) {
+                        marked[other_node] = false;
+                        num++;
+                        continue;
+                    }
+                    else {
+                        System.out.println("Readjusting bandwidth allocation");
+                        e.setBandwidth(e.getBandwidth() + 3);
+                        num++;
+                    }
+                }
+                pathTo[other_node] = e;
+                nodeFrom[other_node] = vertex;
+                e.from = vertex;
+                if(other_node == dst) {
+                    flag = true;
+                    break;
+                }
+                queue.add(other_node);
+            }
+        }
+        if(pathTo[dst] == null)
+            return result;
+        for(Edge e = pathTo[dst]; e != null; e = pathTo[e.from])
+            result.add(e);
+        return result;
+    }
+
     //算路函数，Random Fit，backingtracking，无目的的回溯导致计算性能大大降低
     public static List<Edge> buildPath_dfs(WeightedGraph graph, int src, int dst, int threshold) {
         List<List<Edge>> paths = new ArrayList<List<Edge>>();
@@ -60,13 +106,14 @@ public class LoadBalanceTools {
     }
 
     private static void dfs(WeightedGraph graph, List<List<Edge>> paths, List<Edge> path, int node, int dst, boolean[] marked, int threshold) {
-        if(paths.size() > 0) return;
+        if(paths.size() > 0 || path.size() > 6) return;
         if(node == dst) {
             paths.add(new ArrayList(path));
         }
         else {
             for(Edge e : graph.adj(node)) {
-                int other_node = e.get_one_node() != node ? node : e.get_other_node();
+                if(paths.size() > 1) return;
+                int other_node = e.get_one_node() != node ? e.get_one_node() : e.get_other_node();
                 if(marked[other_node]) continue;
                 marked[other_node] = true;
                 if(e.getBandwidth() < 0 || e.usageRate() * 100 > threshold ) {

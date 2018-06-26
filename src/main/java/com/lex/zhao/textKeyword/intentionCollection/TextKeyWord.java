@@ -1,4 +1,4 @@
-package com.lex.zhao.textKeyword;
+package com.lex.zhao.textKeyword.intentionCollection;
 
 /**
  * Created by qtfs on 2018/5/30.
@@ -6,6 +6,8 @@ package com.lex.zhao.textKeyword;
 
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.NLPTokenizer;
+import com.lex.zhao.textKeyword.intentionCollection.CoreStopWordDictionaryCustomer;
+import com.lex.zhao.textKeyword.intentionCollection.CustomerDictionary;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -20,9 +20,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by qtfs on 2018/6/10.
  */
 
-public class Scene {
+public class Scene_utilization {
     private int threshold;
-    public Scene(int threshold) {
+    public Scene_utilization(int threshold) {
         this.threshold = threshold;
     }
     public void run() {

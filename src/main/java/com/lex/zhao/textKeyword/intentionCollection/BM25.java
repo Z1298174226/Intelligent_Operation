@@ -1,4 +1,4 @@
-package com.lex.zhao.textKeyword;
+package com.lex.zhao.textKeyword.intentionCollection;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.lex.zhao.textKeyword;
+package com.lex.zhao.textKeyword.intentionCollection;
 
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 

@@ -5,7 +5,12 @@ import com.lex.zhao.textKeyword.StrategyChoice.Latency;
 import com.lex.zhao.textKeyword.StrategyChoice.BandWidth;
 import com.lex.zhao.textKeyword.StrategyChoice.UtilizationRate
 import com.lex.zhao.textKeyword.StrategyChoice
-import com.lex.zhao.textKeyword.Scene;
+import com.lex.zhao.textKeyword.Scene_utilization;
+import com.lex.zhao.textKeyword.networkconf.Server;
+import com.lex.zhao.textKeyword.networkconf.Server.Port
+import com.lex.zhao.textKeyword.Scene_utilization
+import javafx.scene.Scene
+import com.lex.zhao.textKeyword.BusinessIdentification.Scene_BusinessIdentification;
 
 rule "low bandwidth"
     when
@@ -26,8 +31,16 @@ rule "utilizationRate"
         $utilization : UtilizationRate()
     then
         System.out.println("The utilization rate is no more than "  + $utilization.getRate());
-        Scene scene = new Scene($utilization.getRate());
+        Scene_utilization scene = new Scene_utilization($utilization.getRate());
         scene.run();
+end
+
+rule "serverConf"
+    when
+        $server : Server()
+    then
+        System.out.println($server);
+        System.out.println($server.port.access ? "The port " + $server.port + " is accessed" : "The port " + $server.port + " is not accessed");
 end
 
 

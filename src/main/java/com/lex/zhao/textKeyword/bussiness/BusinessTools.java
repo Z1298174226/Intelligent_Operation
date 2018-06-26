@@ -22,7 +22,7 @@ public class BusinessTools {
     public  Queue<Business> list = new LinkedList<Business>();
     public int count = 0;
 
-    //业务生成函数
+    //业务生成函数，随机生成业务占用带宽以及业务持续时间
     public  Business business_generation(WeightedGraph graph) {
         while(true) {
             int src = rand.nextInt(graph.getVertexs());
@@ -43,6 +43,31 @@ public class BusinessTools {
             //业务发生间隔
             try{
                 TimeUnit.MILLISECONDS.sleep(getPossionVariable(4) * 50);
+            }catch(InterruptedException ex) {
+            }
+        }
+    }
+
+    //业务生成函数，随机生成业务占用带宽以及业务持续时间
+    public  Business business_generation_DBA(WeightedGraph graph, Type type) {
+        while(true) {
+            int src = rand.nextInt(graph.getVertexs());
+            int dst = rand.nextInt(graph.getVertexs());
+            while(src == dst) {
+                dst = rand.nextInt(graph.getVertexs());
+            }
+            int flow = rand.nextInt(20) + 10;
+            lock.lock();
+            try{
+                Business business = new Business(++count, src, dst, flow, type);
+                list.add(business);
+                empty.signal();
+            }finally {
+                lock.unlock();
+            }
+            //业务发生间隔，服从泊松分布
+            try{
+                TimeUnit.MILLISECONDS.sleep(getPossionVariable(4) * 100);
             }catch(InterruptedException ex) {
             }
         }

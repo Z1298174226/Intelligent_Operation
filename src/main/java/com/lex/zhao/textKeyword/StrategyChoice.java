@@ -1,5 +1,6 @@
 package com.lex.zhao.textKeyword;
 
+import com.lex.zhao.textKeyword.networkconf.Server;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
@@ -65,6 +66,11 @@ public class StrategyChoice {
                 final UtilizationRate utiliaztionRate = new UtilizationRate();
                 utiliaztionRate.setRate(resultMap.get(s));
                 ksession.insert(utiliaztionRate);
+            }
+            if(s == "serverConf") {
+                final Server server = new Server("10.108.50.49");
+                server.port = server.new Port(resultMap.get(s));
+                ksession.insert(server);
             }
         }
 

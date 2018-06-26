@@ -1,4 +1,4 @@
-package com.lex.zhao.textKeyword;
+package com.lex.zhao.textKeyword.intentionCollection;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.ByteArray;

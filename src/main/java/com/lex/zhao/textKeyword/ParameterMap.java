@@ -4,6 +4,8 @@ package com.lex.zhao.textKeyword;
  * Created by qtfs on 2018/5/30.
  */
 
+import com.lex.zhao.textKeyword.networkconf.ProtocolToPort;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +30,27 @@ public class ParameterMap {
                         result.put("utilizationRate", Integer.valueOf(wordList.get(i + 2)));
                 }
             }
+            if(wordList.get(i).equals("新")) {
+                if (i + 1 < wordList.size() && (wordList.get(i + 1).equals("服务器")))  {
+                    if (i + 2 < wordList.size() && isProtocol(wordList.get(i + 2))) {
+                        if(ProtocolToPort.protocolMap.get(wordList.get(i + 2)) == null)
+                            System.out.println("Can't resolve the protocol");
+                        else
+                            result.put("serverConf", Integer.valueOf(ProtocolToPort.protocolMap.get(wordList.get(i + 2))));
+                    }
+                }
+            }
         }
         return result;
     }
 
     public static boolean isInteger(String str) {
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
+
+    public static boolean isProtocol(String str) {
+        Pattern pattern = Pattern.compile("^[A-Za-z]+$");
         return pattern.matcher(str).matches();
     }
 }
