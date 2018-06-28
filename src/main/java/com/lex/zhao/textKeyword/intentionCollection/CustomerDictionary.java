@@ -26,5 +26,8 @@ public class CustomerDictionary {
         CustomDictionary.add("四", "d 1024");
         CustomDictionary.add("最好", " 1024");
         CustomDictionary.add("下发", "v 1024");
+        CustomDictionary.add("在线视频", "n 1024");
+        CustomDictionary.add("4k电视", "n 1024");
+
     }
 }

@@ -72,6 +72,11 @@ public class StrategyChoice {
                 server.port = server.new Port(resultMap.get(s));
                 ksession.insert(server);
             }
+            if(s == "highBusiness") {
+                final UtilizationRate_DBA utiliaztionRate = new UtilizationRate_DBA();
+                utiliaztionRate.setRate(resultMap.get(s));
+                ksession.insert(utiliaztionRate);
+            }
         }
 
         ksession.fireAllRules();
@@ -128,6 +133,26 @@ public class StrategyChoice {
         }
 
         public UtilizationRate(int rate) {
+            this.rate = rate;
+        }
+
+        public int getRate() {
+            return rate;
+        }
+
+        public void setRate(int rate) {
+            this.rate = rate;
+        }
+    }
+
+    public static class UtilizationRate_DBA {
+        int rate;
+
+        public UtilizationRate_DBA() {
+
+        }
+
+        public UtilizationRate_DBA(int rate) {
             this.rate = rate;
         }
 

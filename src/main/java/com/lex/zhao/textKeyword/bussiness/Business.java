@@ -17,11 +17,11 @@ public class Business {
     private int dst;
     //所需带宽
     private int bandwidth;
-    //业务执行完总的流量
+    //业务总流量
     private int flow;
     //业务持续时间
     private long holdTime;
-    //业务优先级Map
+    //业务优先级
     private int priority;
     //业务类型
     private Type type;
@@ -46,6 +46,10 @@ public class Business {
 
     public int getBandwidth() {
         return bandwidth;
+    }
+
+    public void setBandwidth(int bandwidth) {
+        this.bandwidth = bandwidth;
     }
 
     public long getPersistTime() {

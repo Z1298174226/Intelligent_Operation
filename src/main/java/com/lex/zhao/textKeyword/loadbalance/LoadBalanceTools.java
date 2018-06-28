@@ -50,7 +50,7 @@ public class LoadBalanceTools {
         return result;
     }
 
-    //算路函数，带业务优先级，Random Fit，brandFirstSearch，具有较高的计算性能，速度快
+    //算路函数，带业务优先级，具有低优先级业务为高优先级业务“让路”功能，Random Fit，brandFirstSearch，具有较高的计算性能，速度快
     public static List<Edge> buildPath_priority(WeightedGraph graph, int src, int dst, int threshold, int priority) {
         List<Edge> result = new ArrayList<Edge>();
         Queue<Integer> queue = new LinkedList<Integer>();
@@ -60,7 +60,7 @@ public class LoadBalanceTools {
         int[] nodeFrom = new int[graph.getVertexs()];
         queue.add(src);
         marked[src] = true;
-        int num = 0;
+        boolean readjust = false;
         while(!queue.isEmpty() && !flag) {
             int vertex = queue.poll();
             for(Edge e : graph.adj(vertex)) {
@@ -68,15 +68,16 @@ public class LoadBalanceTools {
                 if(marked[other_node]) continue;
                 marked[other_node] = true;
                 if((e.getBandwidth() < 0 || e.usageRate() * 100 > threshold)) {
-                    if(priority > 1 || num < 3) {
+                    if(priority > 1) {
                         marked[other_node] = false;
-                        num++;
                         continue;
                     }
                     else {
-                        System.out.println("Readjusting bandwidth allocation");
-                        e.setBandwidth(e.getBandwidth() + 3);
-                        num++;
+                        if(!readjust) {
+                            System.out.println("==============Readjusting bandwidth allocation=========================");
+                            readjust = true;
+                        }
+//                        e.setBandwidth(e.getBandwidth() + 4);
                     }
                 }
                 pathTo[other_node] = e;

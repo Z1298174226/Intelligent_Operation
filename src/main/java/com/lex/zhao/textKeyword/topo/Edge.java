@@ -12,6 +12,8 @@ public class Edge {
     private int bandwidth;
     private int capacity;
     public int from;
+    public Object Lock = new Object();
+
 
     public Edge(int node_ip_one, int node_ip_other, int capacity) {
         this.node_ip_one = node_ip_one;

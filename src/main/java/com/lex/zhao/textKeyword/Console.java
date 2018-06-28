@@ -1,7 +1,9 @@
 package com.lex.zhao.textKeyword;
 
 
+import com.lex.zhao.textKeyword.bussiness.Type;
 import com.lex.zhao.textKeyword.intentionCollection.TextKeyWord;
+import com.lex.zhao.textKeyword.networkconf.Enums;
 
 import java.util.List;
 import java.util.Scanner;

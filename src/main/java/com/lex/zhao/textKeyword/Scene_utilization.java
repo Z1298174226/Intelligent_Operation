@@ -46,7 +46,7 @@ public class Scene_utilization {
         Runnable bandwidth_compute = new Runnable() {
             @Override
             public void run() {
-//                while(true) {
+                while(true) {
                     businessTools.lock.lock();
                     try {
                         //业务列表为空，此时等待新业务的到来
@@ -72,7 +72,11 @@ public class Scene_utilization {
                                 if(path.size() == 0)
                                     try {
                                         System.out.println("The usageRate of network is more than " + threshold + "%, " + " business " + "[" + business.getId() + "]" + " is blocked! Waiting.......");
-                                        utilization.await();
+                                        while(path.size() == 0) {
+                                            utilization.await();
+                                            path = LoadBalanceTools.buildPath(graph, business.getSrc(), business.getDst(), threshold);
+                                        }
+                                        //直到业务分配到带带宽，继续执行
                                         System.out.println("business" + "[" + business.getId() + "] " + " go on........");
                                 } catch(InterruptedException ex){}
                             }finally {
@@ -104,13 +108,11 @@ public class Scene_utilization {
 //                            System.out.println("The business completed, id is " + business.getId());
                         }
                     });
-//                }
+                }
 
             }
         };
         executor.submit(gererate_business);
-        while(true) {
-            executor.submit(bandwidth_compute);
-        }
+        executor.submit(bandwidth_compute);
     }
 }

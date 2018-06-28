@@ -40,6 +40,9 @@ public class ParameterMap {
                     }
                 }
             }
+            if(wordList.get(i).equals("VR") || wordList.get(i).equals("在线视频") || wordList.get(i).equals("4k电视")) {
+                result.put("highBusiness", 60);
+            }
         }
         return result;
     }

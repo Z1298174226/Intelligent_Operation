@@ -4,13 +4,16 @@ dialect  "mvel"
 import com.lex.zhao.textKeyword.StrategyChoice.Latency;
 import com.lex.zhao.textKeyword.StrategyChoice.BandWidth;
 import com.lex.zhao.textKeyword.StrategyChoice.UtilizationRate
+import com.lex.zhao.textKeyword.StrategyChoice.UtilizationRate_DBA
 import com.lex.zhao.textKeyword.StrategyChoice
 import com.lex.zhao.textKeyword.Scene_utilization;
 import com.lex.zhao.textKeyword.networkconf.Server;
 import com.lex.zhao.textKeyword.networkconf.Server.Port
 import com.lex.zhao.textKeyword.Scene_utilization
 import javafx.scene.Scene
-import com.lex.zhao.textKeyword.BusinessIdentification.Scene_BusinessIdentification;
+import com.lex.zhao.textKeyword.BusinessIdentification.Scene_BusinessIdentification
+import com.lex.zhao.textKeyword.bussiness.Type
+import com.lex.zhao.textKeyword.networkconf.Enums;
 
 rule "low bandwidth"
     when
@@ -32,6 +35,15 @@ rule "utilizationRate"
     then
         System.out.println("The utilization rate is no more than "  + $utilization.getRate());
         Scene_utilization scene = new Scene_utilization($utilization.getRate());
+        scene.run();
+
+end
+
+rule "highBusiness"
+    when
+        $utilization_DBA : UtilizationRate_DBA()
+    then
+        Scene_BusinessIdentification scene = new Scene_BusinessIdentification($utilization_DBA.getRate());
         scene.run();
 end
 
