@@ -1,8 +1,10 @@
 package com.lex.zhao.textKeyword.loadbalance;
 
 
+import com.lex.zhao.textKeyword.JsonTools.JsonTools;
 import com.lex.zhao.textKeyword.topo.Edge;
 import com.lex.zhao.textKeyword.topo.WeightedGraph;
+import com.lex.zhao.textKeyword.underCommunication.JsonFileUploadClient;
 
 import java.util.*;
 
@@ -47,6 +49,16 @@ public class LoadBalanceTools {
         for(Edge e = pathTo[dst]; e != null; e = pathTo[e.from]) {
             result.add(e);
         }
+        JsonTools.createBuildPath(graph, result, src, dst);
+//        new Thread(() -> {
+//            JsonFileUploadClient.transmitJson( "127.0.0.1", 4048);
+//        }, "thread to build connection to frontplatform and trans Json").start();
+        new Thread() {
+            @Override
+            public void run() {
+                JsonFileUploadClient.transmitJsonBuildPath();
+            }
+        }.start();
         return result;
     }
 
@@ -92,8 +104,9 @@ public class LoadBalanceTools {
         }
         if(pathTo[dst] == null)
             return result;
-        for(Edge e = pathTo[dst]; e != null; e = pathTo[e.from])
+        for(Edge e = pathTo[dst]; e != null; e = pathTo[e.from]) {
             result.add(e);
+        }
         return result;
     }
 

@@ -31,7 +31,7 @@ public class BusinessTools {
             while(src == dst) {
                 dst = rand.nextInt(graph.getVertexs());
             }
-            int bandwidth = rand.nextInt(10) + 1;
+            int bandwidth = rand.nextInt(10) + 3;
             long holdTime = rand.nextInt(3000) + 2000;
             lock.lock();
             try{
@@ -43,7 +43,7 @@ public class BusinessTools {
             }
             //业务发生间隔
             try{
-                TimeUnit.MILLISECONDS.sleep(getPossionVariable(4) * 50);
+                TimeUnit.MILLISECONDS.sleep(getPossionVariable(4) * 150);
             }catch(InterruptedException ex) {
             }
         }

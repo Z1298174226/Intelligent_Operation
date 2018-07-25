@@ -6,8 +6,10 @@ package com.lex.zhao.textKeyword.intentionCollection;
 
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.NLPTokenizer;
+import com.lex.zhao.textKeyword.JsonTools.JsonTools;
 import com.lex.zhao.textKeyword.intentionCollection.CoreStopWordDictionaryCustomer;
 import com.lex.zhao.textKeyword.intentionCollection.CustomerDictionary;
+import com.lex.zhao.textKeyword.underCommunication.JsonFileUploadClient;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +44,13 @@ public class TextKeyWord {
                     wordList.add(t.word);
             }
         }
+        JsonTools.createKeyWords(wordList);
+        new Thread() {
+            @Override
+            public void run() {
+                JsonFileUploadClient.transmitJsonKeyWords();
+            }
+        }.start();
 //        System.out.println(wordList);
         return wordList;
 

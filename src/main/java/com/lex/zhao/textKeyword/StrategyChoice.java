@@ -1,6 +1,8 @@
 package com.lex.zhao.textKeyword;
 
+import com.lex.zhao.textKeyword.JsonTools.JsonTools;
 import com.lex.zhao.textKeyword.networkconf.Server;
+import com.lex.zhao.textKeyword.underCommunication.JsonFileUploadClient;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
@@ -56,32 +58,46 @@ public class StrategyChoice {
                 final BandWidth bandWidth = new BandWidth();
                 bandWidth.setValue(resultMap.get(s));
                 ksession.insert(bandWidth);
+                sendJsonPolicy(s);
             }
             if(s == "latency") {
                 final Latency latency = new Latency();
                 latency.setValue(resultMap.get(s));
                 ksession.insert(latency);
+                sendJsonPolicy(s);
             }
             if(s == "utilizationRate") {
                 final UtilizationRate utiliaztionRate = new UtilizationRate();
                 utiliaztionRate.setRate(resultMap.get(s));
                 ksession.insert(utiliaztionRate);
+                sendJsonPolicy(s);
             }
             if(s == "serverConf") {
                 final Server server = new Server("10.108.50.49");
                 server.port = server.new Port(resultMap.get(s));
                 ksession.insert(server);
+                sendJsonPolicy(s);
             }
             if(s == "highBusiness") {
                 final UtilizationRate_DBA utiliaztionRate = new UtilizationRate_DBA();
                 utiliaztionRate.setRate(resultMap.get(s));
                 ksession.insert(utiliaztionRate);
+                sendJsonPolicy(s);
             }
         }
-
         ksession.fireAllRules();
         ksession.dispose();
 
+    }
+
+    public void sendJsonPolicy(final String policy) {
+        new Thread() {
+            @Override
+            public void run() {
+                JsonTools.createPolicy(policy);
+                JsonFileUploadClient.transmitJsonPolicy();
+            }
+        }.start();
     }
 
 
@@ -164,6 +180,4 @@ public class StrategyChoice {
             this.rate = rate;
         }
     }
-
-
 }
